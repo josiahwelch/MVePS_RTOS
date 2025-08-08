@@ -1,4 +1,8 @@
-//
+// Josiah Welch
+// August 4th, 2025
+// Midwest Vehicle Positioning System Real Time Operating System
+
+#pragma once
 #include <iostream>
 #include <map>
 #include <bits/stdc++.h>
@@ -62,16 +66,30 @@ namespace std {
 
 			void start() {
 				m_initial_millisecond = millis();
+				running = true;
 			}
 
-			void run() {
+			void run_in_loop() {
 				map<unsigned long, map<int, vector<int>>> organized_m_stack;
+				vector<int> sorted_functions;
 				if(running) {
 					m_organizeStack(organized_m_stack, m_stack);
 					for(auto const& element : organized_m_stack) {
-							if(millis() % element.first == 0) {
-								for(auto const& subelement : element.second) {
+						if(millis() % element.first == 0) {
+							m_sortFunctionPriorityPairings(sorted_functions, element.second);
+						}
+					}
+					for (int function_to_exec : sorted_functions) {
+						m_functions[function_to_exec]();
+					}
+				}
+			}
 
+			void stop() {running = false;}
+
+			void run() {
+				while(running) {run_in_loop();}
+			}
 	};
 }
 
