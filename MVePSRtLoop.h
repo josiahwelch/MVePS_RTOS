@@ -18,6 +18,7 @@ namespace std {
 			unsigned long m_initial_millisecond;
 			bool running = false;
 
+			// Static methods
 			static void m_organizeStack(map<unsigned long, map<int, vector<int>>> &organized_stack, const map<int, pair<unsigned long, int>> &unorganized_stack) {
 				for (auto const& element : unorganized_stack) {
 					int funct_id = element.first;
@@ -33,6 +34,23 @@ namespace std {
 						organized_stack[interval] = map<int, vector<int>>({priority, {funct_id}});
 					}
 				}
+			}
+
+			static bool m_pairCmp(pair<int, vector<int>> const &left, pair<int, vector<int>> const &right) {
+				return left.first < right.first;
+			}
+			static vector<int> m_sortFunctionPriorityPairings(vector<int> &sorted_functions, const map<int, vector<int>> &unsorted_pairs) {
+				vector<int> result;
+				vector<pair<int, vector<int>>> sorted_pairs;
+				for (auto const& element : unsorted_pairs) {sorted_pairs.push_back(element);}
+				sort(sorted_pairs.begin(), sorted_pairs.end(), m_pairCmp);
+				for (auto const& element : sorted_pairs) {
+					vector<int> buf = element.second;
+					for (int function_id : buf) {
+						result.push_back(function_id);
+					}
+				}
+				return result;
 			}
 
 		public:
@@ -52,7 +70,7 @@ namespace std {
 					m_organizeStack(organized_m_stack, m_stack);
 					for(auto const& element : organized_m_stack) {
 							if(millis() % element.first == 0) {
-								for(auto const& element : element.second) {
+								for(auto const& subelement : element.second) {
 
 	};
 }
