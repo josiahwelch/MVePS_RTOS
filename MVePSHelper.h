@@ -27,9 +27,9 @@ class mPair {
     int m_priority;
 };
 
-class PriorityFunctionIDPairs {
+class PriorityIndex {
     public:
-    PriorityFunctionIDPairs() {}
+    PriorityIndex() = default;
 
     vector<int> getFunctionIDs() {
         return m_functionIDs;
@@ -71,6 +71,11 @@ class OrgDict {
     public:
     OrgDict() = default;
 
+
+
+private:
+    vector<unsigned long> m_intervals;
+    vector<PriorityIndex> m_priority_indexes;
 };
 
 #endif //MVEPSHELPER_H
