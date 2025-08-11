@@ -35,7 +35,9 @@ class PriorityFunctionIDPairs {
         return m_functionIDs;
     }
 
-
+    int getFunctionID(int priority) {
+        return m_functionIDs[priority];
+    }
 
     private:
     vector<int> m_functionIDs;
