@@ -9,12 +9,18 @@
 #ifndef MVEPSHELPER_H
 #define MVEPSHELPER_H
 
+// To find an element in an array and return its index
+static int find(const int *array, const int element) {
+    for (int i = 0; i < sizeof(array)/sizeof(array[0]); i++) {
+        if (array[i] == element) {return i;}
+    }
+    return -1;
+}
+
 // To find length of an array (assuming it is negative when pseudo NULL)
 static unsigned int length(const int *array) {
-    for (int i = 0; i < sizeof(array)/sizeof(array[0]); i++) {
-        if (array[i] == -1) {return i;}
-    }
-    return 0;
+    const int index = find(array, -1);
+    return index >= 0 ? index : 0;
 }
 
 class mPair {
@@ -24,6 +30,8 @@ class mPair {
         m_priority = priority;
     }
 
+    mPair() {m_is_empty = true;}
+
     unsigned long getInterval() {
         return m_interval;
     }
@@ -32,9 +40,12 @@ class mPair {
         return m_priority;
     }
 
+    bool isEmpty() {return m_is_empty;}
+
     private:
     unsigned long m_interval;
     int m_priority;
+    bool m_is_empty = false;
 };
 
 class PriorityIndex {
@@ -56,14 +67,16 @@ class PriorityIndex {
 class PrelimDict {
     public:
     PrelimDict() {
-        for (int i = 0; i < 64; i++) {
-            m_function_IDs[i] = -1;
+        for (int & m_function_ID : m_function_IDs) {
+            m_function_ID = -1;
         }
     }
 
-    mPair get(int index) {
-        return m_value_pairs[index];
+    mPair get() {
+        return m_value_pairs[];
     }
+
+    static
 
     void addToDict(int function_id, mPair pair) {
         m_function_IDs[length(m_function_IDs)] = function_id;
