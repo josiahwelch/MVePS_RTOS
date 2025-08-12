@@ -13,7 +13,8 @@
 
 // Arduino libraries
 #include <ArxContainer.h>
-#include <MVePSHelper.h>
+#include <ArduinoSTL.h>
+#include <C:\Users\jwelch11\git\MVePS_RTOS\MVePSHelper.h>
 
 #ifndef MVEPSRTLOOP_H
 #define MVEPSRTLOOP_H
@@ -64,9 +65,8 @@ namespace std {
 		}
 
 		public:
-		void addToStack(void func(), int priority, unsigned long interval) {
-			m_functions.push_back(func);
-			m_stack.addToDict(mPair(interval, priority));
+		void addToStack(int function_id, int priority, unsigned long interval) {
+			m_stack.addToDict(function_id, mPair(interval, priority));
 		}
 
 		void start() {
