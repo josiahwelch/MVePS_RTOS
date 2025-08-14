@@ -9,18 +9,27 @@
 #ifndef MVEPSHELPER_H
 #define MVEPSHELPER_H
 
+// Forward declarations to not break things
+class mPair;
+
 // To find an element in an array and return its index
-static int find(const int *array, const int element) {
+static int find(const int array[], const int element) {
     for (int i = 0; i < sizeof(array)/sizeof(array[0]); i++) {
         if (array[i] == element) {return i;}
     }
     return -1;
 }
+static int find(const mPair *array[], mPair *element) {
+    for (int i = 0; i < sizeof(array)/sizeof(array[0]); i++) {
+        if (array[i]->compare(element)) {return i;}
+    }
+    return -1;
+}
 
 // To find length of an array (assuming it is negative when pseudo NULL)
-static unsigned int length(const int *array) {
+static unsigned int arrayLength(const int *array) {
     const int index = find(array, -1);
-    return index >= 0 ? index : 0;
+    return index >= 0 ? index : sizeof(array)/sizeof(array[0]);
 }
 
 class mPair {
@@ -40,7 +49,14 @@ class mPair {
         return m_priority;
     }
 
-    bool isEmpty() {return m_is_empty;}
+    bool isEmpty() const {return m_is_empty;}
+
+    bool compare(mPair *other_pair) const {
+        if (isEmpty() == other_pair->isEmpty()) {
+            return isEmpty() ? true : (m_interval == other_pair->getInterval() && m_priority == other_pair->getPriority());
+        }
+        return false;
+    }
 
     private:
     unsigned long m_interval;
@@ -73,14 +89,14 @@ class PrelimDict {
     }
 
     mPair get() {
-        return m_value_pairs[];
+        return ;
     }
 
-    static
+    unsigned int length() {return arrayLength(m_function_IDs);}
 
     void addToDict(int function_id, mPair pair) {
-        m_function_IDs[length(m_function_IDs)] = function_id;
-        m_value_pairs[-1] = pair;
+        m_function_IDs[length()] = function_id;
+        m_value_pairs[length()] = pair;
     }
 
     vector<mPair> getVector() {
