@@ -14,7 +14,7 @@
 // Arduino libraries
 #include <ArxContainer.h>
 #include <ArduinoSTL.h>
-#include <C:\Users\jwelch11\git\MVePS_RTOS\MVePSHelper.h>
+#include <MVePSHelper.h>
 
 #ifndef MVEPSRTLOOP_H
 #define MVEPSRTLOOP_H
